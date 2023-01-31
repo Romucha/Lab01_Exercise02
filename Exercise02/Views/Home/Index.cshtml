@@ -1,0 +1,33 @@
+﻿<div>
+    <div class="row">
+        Click on any of the first three images to display it at the bottom
+    </div>
+    <div class="row">
+        Click on the bottom image to clear it
+    </div>
+    <div class="row">
+        <ul>
+            @{
+                foreach (var img in Directory.EnumerateFiles("wwwroot/Images/", "*.png"))
+                {
+                    <li style="float: left; list-style-type: none; margin: 20px">
+                        <a onclick="clickImage('Images/@System.IO.Path.GetFileName(img)')">
+                            <img src="Images/@System.IO.Path.GetFileName(img)"/>
+                        </a>
+                    </li>
+                }
+            }
+        </ul>
+    </div>
+    <hr/>
+    <div id="imgPartial">
+        @await Html.PartialAsync("_DisplayImage", null)
+    </div>
+</div>
+@section Scripts{
+    <script type="text/javascript">
+        function clickImage(img) {  
+            $('#imgPartial').load(`/Home/DisplayImage?imageurl=${img}`);
+        }
+    </script>
+}
